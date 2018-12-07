@@ -215,6 +215,7 @@ def main():
     models_name = []
     accuracies = []
     
+    print("\nBaseline classifier: Decision trees")
     model, accuracy = decisionTreeClassifier(X_train, y_train, X_dev, y_dev)
     models.append(model)
     models_name.append("DecisionTreeClassifier")
@@ -274,6 +275,9 @@ def main():
     print("Highest accuracy is achieved using Logistic regression classifier with multinomial classification on reduced feature set.")
     print("Hence, persisting the model to predict on test values.")
     
+    fileName = "predict_smoking_model.sav"
+    pickle.dump(models[3], open(fileName, 'wb'))
+    
     print("Calculating the precision, recall and F1 scores for the Logistic regression classifier.")
     preds = model_selection.cross_val_predict(models[3], X_red, y, cv=10)
     accScore = metrics.accuracy_score(y,preds)
@@ -287,8 +291,7 @@ def main():
         print("Recall of %s class: %f" %(labels[i],recall[i]))
         print("F1-Score of %s class: %f" %(labels[i],f1Score[i]),"\n")
     
-    fileName = "predict_smoking_model.sav"
-    pickle.dump(models[3], open(fileName, 'wb'))
+    
 
 if __name__ == '__main__':
     main()

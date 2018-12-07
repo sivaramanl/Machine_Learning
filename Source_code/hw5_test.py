@@ -10,6 +10,13 @@ import numpy as np
 import pickle
 import sys
 
+import warnings
+
+if not sys.warnoptions:
+    warnings.simplefilter("ignore")
+
+from sklearn import model_selection, metrics
+
 def read_from_file(fileName):
     print("\nReading input from file")
     data = pd.read_csv(fileName, low_memory=False)
@@ -36,12 +43,27 @@ def main():
     X,y = getFeaturesTarget(data, target_col)
     
     #Dimension reduction
+    print("\nPerforming dimensionality reduction using the saved feature reduction model.")
     dimension_reduction_model = pickle.load(open("predict_smoking_feature_reduction_model.sav", 'rb'))
     X_reduced = dimension_reduction_model.transform(X)
     
+    print("\nLoading saved model.")
     trained_model = pickle.load(open(model_fileName, 'rb'))
     y_pred = trained_model.predict(X_reduced)
     print("Accuracy", np.mean(y==y_pred))
+    
+    print("\nCalculating the precision, recall and F1 scores for the classifier.")
+    preds = model_selection.cross_val_predict(trained_model, X_reduced, y, cv=10)
+    accScore = metrics.accuracy_score(y,preds)
+    labels = ["former smoker", "never smoked", "tried smoking", "current smoker"]
+    precision = metrics.precision_score(y,preds,average=None,labels=labels)
+    recall = metrics.recall_score(y,preds,average=None,labels=labels)
+    f1Score = metrics.f1_score(y,preds,average=None,labels=labels)
+    print("\nOverall Acurracy: ",accScore,"\n")
+    for i in range(len(labels)):
+        print("Precision of %s class: %f" %(labels[i],precision[i]))
+        print("Recall of %s class: %f" %(labels[i],recall[i]))
+        print("F1-Score of %s class: %f" %(labels[i],f1Score[i]),"\n")
     
 if __name__ == '__main__':
     main()
