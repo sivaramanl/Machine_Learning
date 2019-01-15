@@ -1,5 +1,5 @@
 # CS-412-Introduction-to-Machine-Learning
-Repository to hold the mini project in CS 412 - Introduction to Machine Learning course at UIC
+Repository to hold the project in CS 412 - Introduction to Machine Learning course at UIC
 
 1. The Jupyter notebook contains the flow of data preprocessing, feature engineering and the final results involving the best classifier on the dataset.
 2. The dataset can be found here: https://www.kaggle.com/miroslavsabo/young-people-survey/
