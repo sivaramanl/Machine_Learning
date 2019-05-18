@@ -1,6 +1,3 @@
-Readme
-------
-
 1. The Jupyter notebook contains the flow of data preprocessing, feature engineering and the final results involving the best classifier on the dataset.
 2. The dataset can be found here: https://www.kaggle.com/miroslavsabo/young-people-survey/
 3. The task corresponds to the prediction of the likelihood of a person to be in one of the following four categories: “never smoked,” “tried smoking,” “former smoker,” and “current smoker”.
